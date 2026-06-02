@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>Parkinson.AI</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Header -->
+        <div class="header-card">
+
+            <h1>🧠 Parkinson.AI</h1>
+
+            <p>
+                Voice-Based Parkinson Risk Analysis
+                using Artificial Intelligence
+            </p>
+
+            <div class="badge">
+                XGBoost Model · 92.3% Accuracy
+            </div>
+
+        </div>
+
+        <!-- Info Section -->
+        <div class="info-card">
+
+            <h3>How It Works</h3>
+
+            <p>
+                Enter biomedical voice measurements to
+                analyse Parkinson's risk using our trained
+                machine learning model.
+            </p>
+
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-section">
+
+            <p>Step 1 of 3 — Enter Voice Measurements</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+        </div>
+
+        <!-- Form -->
+        <form id="predictionForm">
+
+            <!-- Frequency Features -->
+            <div class="card">
+
+                <h2>Frequency Features</h2>
+
+                <div class="input-grid">
+
+                    <div class="input-box">
+                        <label>Spread1</label>
+                        <input type="number"
+                               step="any"
+                               id="spread1"
+                               placeholder="-5.75">
+                    </div>
+
+                    <div class="input-box">
+                        <label>Spread2</label>
+                        <input type="number"
+                               step="any"
+                               id="spread2"
+                               placeholder="0.25">
+                    </div>
+
+                    <div class="input-box">
+                        <label>PPE</label>
+                        <input type="number"
+                               step="any"
+                               id="PPE"
+                               placeholder="0.28">
+                    </div>
+
+                    <div class="input-box">
+                        <label>HNR</label>
+                        <input type="number"
+                               step="any"
+                               id="HNR"
+                               placeholder="21.03">
+                    </div>
+
+                    <div class="input-box">
+                        <label>MDVP:Fo(Hz)</label>
+                        <input type="number"
+                               step="any"
+                               id="MDVP_Fo_Hz"
+                               placeholder="119.99">
+                    </div>
+
+                    <div class="input-box">
+                        <label>MDVP:Flo(Hz)</label>
+                        <input type="number"
+                               step="any"
+                               id="MDVP_Flo_Hz"
+                               placeholder="74.99">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Shimmer Features -->
+            <div class="card">
+
+                <h2>Shimmer Features</h2>
+
+                <div class="input-grid">
+
+                    <div class="input-box">
+                        <label>MDVP Shimmer</label>
+                        <input type="number"
+                               step="any"
+                               id="MDVP_Shimmer"
+                               placeholder="0.043">
+                    </div>
+
+                    <div class="input-box">
+                        <label>MDVP APQ</label>
+                        <input type="number"
+                               step="any"
+                               id="MDVP_APQ"
+                               placeholder="0.029">
+                    </div>
+
+                    <div class="input-box">
+                        <label>Shimmer APQ3</label>
+                        <input type="number"
+                               step="any"
+                               id="Shimmer_APQ3"
+                               placeholder="0.021">
+                    </div>
+
+                    <div class="input-box">
+                        <label>Shimmer APQ5</label>
+                        <input type="number"
+                               step="any"
+                               id="Shimmer_APQ5"
+                               placeholder="0.031">
+                    </div>
+
+                    <div class="input-box">
+                        <label>Shimmer DDA</label>
+                        <input type="number"
+                               step="any"
+                               id="Shimmer_DDA"
+                               placeholder="0.065">
+                    </div>
+
+                    <div class="input-box">
+                        <label>MDVP Shimmer(dB)</label>
+                        <input type="number"
+                               step="any"
+                               id="MDVP_Shimmer_dB"
+                               placeholder="0.426">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Nonlinear Features -->
+            <div class="card">
+
+                <h2>Voice Stability Features</h2>
+
+                <div class="input-grid">
+
+                    <div class="input-box">
+                        <label>D2</label>
+                        <input type="number"
+                               step="any"
+                               id="D2"
+                               placeholder="2.30">
+                    </div>
+
+                    <div class="input-box">
+                        <label>Voice Amplitude Instability</label>
+                        <input type="number"
+                               step="any"
+                               id="voice_amplitude_instability"
+                               placeholder="0.03">
+                    </div>
+
+                    <div class="input-box">
+                        <label>MDVP Jitter Abs</label>
+                        <input type="number"
+                               step="any"
+                               id="MDVP_Jitter_Abs"
+                               placeholder="0.00007">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Predict Button -->
+            <button type="submit" class="predict-btn">
+                Predict Risk
+            </button>
+
+        </form>
+
+        <!-- Result Section -->
+        <div id="resultCard" class="result-card hidden">
+
+            <h2 id="resultTitle"></h2>
+
+            <p id="confidenceText"></p>
+
+            <div class="confidence-bar">
+                <div id="confidenceFill"></div>
+            </div>
+
+            <p id="recommendationText"></p>
+
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+
+            <strong>Medical Disclaimer:</strong>
+
+            This system is an AI-assisted screening
+            tool and should not replace professional
+            medical diagnosis. Consult a neurologist
+            for clinical evaluation.
+
+        </div>
+
+    </div>
+
+    <!-- JS File -->
+    <script src="script.js"></script>
+
+</body>
+</html>
