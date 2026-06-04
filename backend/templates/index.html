@@ -1004,8 +1004,8 @@
       </h1>
 
       <p class="hero-p fade-up delay-2">
-        22 biomedical acoustic features analysed by a Support Vector Machine trained on the UCI Parkinson's dataset.
-        92.3% accuracy.
+  15 biomedical voice features analysed using an XGBoost model trained on the UCI Parkinson’s dataset.
+  
       </p>
 
       <div class="hero-btns fade-up delay-3">
@@ -1028,14 +1028,16 @@
   <div class="sec-eyebrow">About</div>
   <h2 class="sec-h">Parkinson.AI</h2>
   <p class="sec-sub">
-    Parkinson.AI is a machine learning-based diagnostic support system that analyzes 22 biomedical voice features to detect early signs of Parkinson’s disease.
-    The model uses a Support Vector Machine trained on the UCI Parkinson’s dataset and achieves 92.3% accuracy. 
-    The goal of this project is to demonstrate how AI can assist in early medical screening.
+    <p class="sec-sub">
+  Parkinson.AI is a machine learning-based diagnostic support system that analyzes biomedical voice features to detect early signs of Parkinson’s disease.
+  Multiple machine learning models including Logistic Regression, Random Forest, SVM, and XGBoost were compared, and XGBoost was selected for deployment due to its superior performance.
+  The system is trained on the UCI Parkinson’s dataset and helps demonstrate how AI can support early medical screening.
+    </p>
   </p>
   <p class="sec-sub">
   <span> Early-stage detection support</span><br>
   <span> Non-invasive voice-based screening</span><br>
-  <span> Lightweight ML model (SVM)</span><br>
+  <span> Optimized XGBoost prediction model</span><br>
   <span> Real-world dataset (Kaggle Parkinson’s dataset)</span>
 </p>
   </section>
@@ -1054,8 +1056,8 @@
       <div class="stat-lbl">Model accuracy</div>
     </div>
     <div class="stat-cell">
-      <div class="stat-val">SVM</div>
-      <div class="stat-lbl">Algorithm</div>
+      <div class="stat-val">XGBoost</div>
+      <div class="stat-lbl">Best Model Selected</div>
     </div>
   </div>
 
@@ -1070,15 +1072,13 @@
         <div class="how-num">01</div>
         <div class="how-icon">&#9000;</div>
         <div class="how-h">Enter voice data</div>
-        <div class="how-p">Input 22 biomedical acoustic features. Use the sample loader to auto-fill with real dataset
-          values in one click.</div>
+        <div class="how-p">Enter 15 important biomedical voice features selected through feature importance analysis for Parkinson’s prediction.</div>
       </div>
       <div class="how-card">
         <div class="how-num">02</div>
         <div class="how-icon">&#9881;</div>
-        <div class="how-h">SVM analyses</div>
-        <div class="how-p">The Support Vector Machine with RBF kernel processes the scaled features and computes a
-          decision boundary score.</div>
+        <div class="how-h">XGBoost analyses</div>
+        <div class="how-p">The XGBoost model processes the selected voice features, calculates prediction probability, and detects Parkinson’s risk based on an optimized threshold.</div>
       </div>
       <div class="how-card">
         <div class="how-num">03</div>
