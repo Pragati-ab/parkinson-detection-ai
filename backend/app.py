@@ -4,7 +4,10 @@ from pydantic import BaseModel
 import pandas as pd
 import numpy as np
 import joblib
-
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
 from pathlib import Path
 
 app = FastAPI()
@@ -17,6 +20,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 # Load ML Model Files
 BASE_DIR = Path(__file__).resolve().parent
@@ -48,11 +54,20 @@ class PatientData(BaseModel):
     MDVP_Jitter_Abs: float
     MDVP_Fo_Hz: float
 
-@app.get("/")  #Decorator
-def home():
-    return {
-        "message": "Parkinson Disease Prediction API is Running"
-    }
+@app.get("/", response_class=HTMLResponse)
+async def home(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html"
+    )
+
+
+@app.get("/analysis", response_class=HTMLResponse)
+async def analysis(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="analysis.html"
+    )
 
 @app.post("/predict")
 def predict(data: PatientData):
