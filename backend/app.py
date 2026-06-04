@@ -1,15 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import pandas as pd
 import numpy as np
 import joblib
-
 from pathlib import Path
 
 app = FastAPI()
 
-# Allow frontend to connect
+# -----------------------------
+# CORS (Frontend Connection)
+# -----------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,7 +21,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# -----------------------------
+# Static Files (CSS, JS, Video)
+# -----------------------------
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# -----------------------------
 # Load ML Model Files
+# -----------------------------
 BASE_DIR = Path(__file__).resolve().parent
 
 model_path = BASE_DIR / "model" / "parkinsons_model.pkl"
@@ -29,8 +39,9 @@ model = joblib.load(model_path)
 top_features = joblib.load(features_path)
 threshold = joblib.load(threshold_path)
 
-
-# Patient Input Schema
+# -----------------------------
+# Input Schema
+# -----------------------------
 class PatientData(BaseModel):
     spread1: float
     PPE: float
@@ -48,12 +59,26 @@ class PatientData(BaseModel):
     MDVP_Jitter_Abs: float
     MDVP_Fo_Hz: float
 
-@app.get("/")  #Decorator
-def home():
-    return {
-        "message": "Parkinson Disease Prediction API is Running"
-    }
 
+# -----------------------------
+# HOME PAGE
+# -----------------------------
+@app.get("/")
+def home():
+    return FileResponse("templates/index.html")
+
+
+# -----------------------------
+# ANALYSIS PAGE
+# -----------------------------
+@app.get("/analysis")
+def analysis():
+    return FileResponse("templates/analysis.html")
+
+
+# -----------------------------
+# PREDICTION API
+# -----------------------------
 @app.post("/predict")
 def predict(data: PatientData):
 
@@ -77,6 +102,7 @@ def predict(data: PatientData):
 
     input_df = pd.DataFrame([input_data])
 
+    # Feature order
     input_df = input_df[top_features]
 
     # Prediction probability
