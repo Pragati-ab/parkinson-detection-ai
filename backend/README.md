@@ -55,6 +55,18 @@ The dataset was split into training and test sets using an 80-20 split. We evalu
 ## Results
 The XGBoost model achieved an accuracy of 94%, an AUC of 0.96, and an F1-score of 0.93 on the test set. These results indicate a strong ability to differentiate between healthy individuals and those
 
+![Alt text](../images/target_distribution.png)  
+*Figure 1: Target distribution in dataset(0-> Healthy 1->Parkinson).*
+
+![Alt text](../images/heatmap.png)  
+*Figure 2: Heatmap.*
+
+![Alt text](../images/model_comparison.png)  
+*Figure 3: Model Comparison.*
+
+![Alt text](../images/confusion_matrix.png)  
+*Figure 1: Confusion Matrix of XGBoost.*
+
 ## Deployment
 The model was deployed using FastAPI for the backend API, and the frontend was built as a static web page. The entire application is hosted on Render, enabling users to interact with the prediction API in real time.
      
