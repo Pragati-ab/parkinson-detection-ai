@@ -2,7 +2,31 @@
 
 This project is a machine learning system that predicts Parkinson's disease risk based on voice features. The system was trained on the Oxford Parkinson's disease detection dataset and uses XGBoost for classification.
 
-Dataset used: https://www.kaggle.com/datasets/thecansin/parkinsons-data-set 
+## Dataset used: https://www.kaggle.com/datasets/thecansin/parkinsons-data-set 
+
+This dataset is composed of a range of biomedical voice measurements from 31 people, 23 with Parkinson's disease (PD). Each column in the table is a particular voice measure, and each row corresponds one of 195 voice recording from these individuals ("name" column). The main aim of the data is to discriminate healthy people from those with PD, according to "status" column which is set to 0 for healthy and 1 for PD.
+
+## Attribute Information:
+
+Matrix column entries (attributes): name - ASCII subject name and recording number
+
+MDVP:Fo(Hz) - Average vocal fundamental frequency 
+
+MDVP:Fhi(Hz) - Maximum vocal fundamental frequency
+
+MDVP:Flo(Hz) - Minimum vocal fundamental frequency 
+
+MDVP:Jitter(%),MDVP:Jitter(Abs),MDVP:RAP,MDVP:PPQ,Jitter:DDP - Several measures of variation in fundamental frequency 
+
+MDVP:Shimmer,MDVP:Shimmer(dB),Shimmer:APQ3,Shimmer:APQ5,MDVP:APQ,Shimmer:DDA - Several measures of variation in amplitude 
+
+NHR,HNR - Two measures of ratio of noise to tonal components in the voice status - Health status of the subject (one) - Parkinson's, (zero) - healthy 
+
+RPDE,D2 - Two nonlinear dynamical complexity measures 
+
+DFA - Signal fractal scaling exponent 
+
+spread1,spread2,PPE - Three nonlinear measures of fundamental frequency variation
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -15,7 +39,84 @@ Dataset used: https://www.kaggle.com/datasets/thecansin/parkinsons-data-set
 
 
 ## Overview
+Parkinson's disease
+Parkinson's disease is a movement disorder of the nervous system that worsens over time.
+In Parkinson's disease, nerve cells in the brain called neurons slowly break down or die. Many Parkinson's disease symptoms are caused by a loss of neurons that produce a chemical messenger in the brain. This messenger is called dopamine.
+People with Parkinson's disease also lose a chemical messenger called norepinephrine that controls many body functions, such as blood pressure.
+Symptoms can be different for everyone.
+
+Parkinson's disease classification : The goal is to classify patients on the based of their speech changes symptoms (voice features)
+
 Parkinson.AI is a machine learning-based system that predicts the risk of Parkinson’s disease by analyzing voice features. Using the UCI Parkinson’s dataset, we extracted 22 acoustic features and built a predictive model using XGBoost.
+
+                          ┌────────────────────────────┐
+                          │    Parkinson Dataset       │
+                          │ (Biomedical Voice Features)│
+                          └─────────────┬──────────────┘
+                                        │
+                                        ▼
+                    ┌─────────────────────────────────────┐
+                    │         Data Preprocessing          │
+                    │ • Remove unnecessary columns        │
+                    │ • Handle missing values             │
+                    │ • Feature cleaning                  │
+                    │ • Prepare input/output data         │
+                    └─────────────┬───────────────────────┘
+                                  │
+                                  ▼
+                    ┌─────────────────────────────────────┐
+                    │      Feature Selection Stage        │
+                    │ • Analyze feature importance        │
+                    │ • Select top 15 important features  │
+                    └─────────────┬───────────────────────┘
+                                  │
+                                  ▼
+                    ┌─────────────────────────────────────┐
+                    │         Train-Test Split            │
+                    │        (Training / Testing)         │
+                    └─────────────┬───────────────────────┘
+                                  │
+                                  ▼
+       ┌──────────────────────────────────────────────────────┐
+       │               Train Multiple ML Models               │
+       └───────┬──────────────┬──────────────┬────────────────┘
+               │              │              │
+               ▼              ▼              ▼
+     ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
+     │ Logistic Reg │ │ RandomForest │ │      SVM     │
+     └──────┬───────┘ └──────┬───────┘ └──────┬───────┘
+            │                │                │
+            └────────────────┼────────────────┘
+                             │
+                             ▼
+                     ┌──────────────┐
+                     │   XGBoost    │
+                     └──────┬───────┘
+                            │
+                            ▼
+              ┌──────────────────────────────┐
+              │      Model Evaluation        │
+              │ • Accuracy                   │
+              │ • Precision                  │
+              │ • Recall                     │
+              │ • F1 Score                   │
+              │ • ROC-AUC Score              │
+              └──────────────┬───────────────┘
+                             │
+                             ▼
+              ┌──────────────────────────────┐
+              │  Compare All 4 Models        │
+              │  XGBoost Performs Best       │
+              └──────────────┬───────────────┘
+                             │
+                             ▼
+              ┌──────────────────────────────┐
+              │   Save Final Model (.pkl)    │
+              │ • parkinsons_model.pkl       │
+              │ • top_features.pkl           │
+              │ • threshold.pkl              │
+              └────────────── ───────────────┘
+
 
 ## Installation
 1. Clone the repository:
